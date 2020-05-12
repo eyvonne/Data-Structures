@@ -48,3 +48,7 @@ class LRUCache:
             self.storage.add_to_head(key, value)
             if len(self.storage) > self.capacity:
                 self.storage.remove_from_tail()
+
+    def print_cache(self):
+        for node in self.storage:
+            print(node)

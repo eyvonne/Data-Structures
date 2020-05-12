@@ -20,7 +20,7 @@ class ListNode:
             current_next.prev = self.next
 
     def __str__(self):
-        return f'value: {self.value}'
+        return f'key: {self.key}, value: {self.value}'
 
     """Wrap the given value in a ListNode and insert it
     before this node. Note that this node could already
@@ -75,12 +75,16 @@ class DoublyLinkedList:
     the old head node's previous pointer accordingly."""
 
     def add_to_head(self, key,  value):
-        if self.length >= 1:
+        if self.length > 1:
             self.head = ListNode(key, value, next=self.head)
             self.length += 1
         elif self.length == 0:
             self.head = ListNode(key, value)
             self.tail = self.head
+            self.length += 1
+        elif self.length == 1:
+            self.head = ListNode(key, value, next=self.head)
+            self.tail.prev = self.head
             self.length += 1
 
     """Removes the List's current head node, making the
@@ -135,12 +139,14 @@ class DoublyLinkedList:
         if self.head == node:
             return None
         if self.tail == node:
-            self.tail = self.tail.prev
+            self.tail = self.tail.prev  # this is where it breaks
             node.set_next(self.head)
+            node.set_prev(None)
             self.head = node
         else:
             node.delete()
-            node.next = self.head
+            node.set_next(self.head)
+            node.set_prev(None)
             self.head = node
 
     """Removes the input node from its current spot in the
