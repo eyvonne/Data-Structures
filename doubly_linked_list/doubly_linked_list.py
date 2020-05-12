@@ -201,3 +201,4 @@ if __name__ == '__main__':
     dll.add_to_tail('tail3')
     for i, node in enumerate(dll):
         print(i, node)
+    print(*dll)
