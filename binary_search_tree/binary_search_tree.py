@@ -9,6 +9,7 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+from collections import deque
 
 
 class BinarySearchTree:
@@ -17,7 +18,10 @@ class BinarySearchTree:
         self.left = None
         self.right = None
 
+    def __str__(self):
+        return f'{self.value}'
     # Insert the given value into the tree
+
     def insert(self, value):
         if self.value > value:
             if self.left == None:
@@ -59,10 +63,8 @@ class BinarySearchTree:
         fn(self.value)
         if self.left != None:
             self.left.for_each(fn)
-            fn(self.left.value)
         if self.right != None:
             self.right.for_each(fn)
-            fn(self.right.value)
 
             # Part 2 -----------------------
 
@@ -70,17 +72,30 @@ class BinarySearchTree:
             # Hint:  Use a recursive, depth first traversal
 
     def in_order_print(self, node):
-        pass
+        if node.left:
+            self.in_order_print(node.left)
+        print(node)
+        if node.right:
+            self.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
-    def bft_print(self, node):
-        pass
 
+    def bft_print(self, node):
+        queue = deque()
+        queue.append(node)
+        while len(queue) > 0:
+            current = queue.popleft()
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+            print(current)
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
+
     def dft_print(self, node):
-        pass
+        node.for_each(print)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
@@ -92,3 +107,15 @@ class BinarySearchTree:
     # Print Post-order recursive DFT
     def post_order_dft(self, node):
         pass
+
+
+if __name__ == '__main__':
+    bst = BinarySearchTree(1)
+    bst.insert(8)
+    bst.insert(5)
+    bst.insert(7)
+    bst.insert(6)
+    bst.insert(3)
+    bst.insert(4)
+    bst.insert(2)
+    bst.dft_print(bst)

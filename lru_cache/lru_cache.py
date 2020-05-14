@@ -1,4 +1,4 @@
-from doubly_linked_list import DoublyLinkedList
+from lru_doubly_linked_list import DoublyLinkedList
 
 
 class LRUCache:
@@ -24,10 +24,12 @@ class LRUCache:
     """
 
     def get(self, key):
-        node = self.storage.get_key(key)
-        self.storage.move_to_front(node)
-        return node.get_value()
-
+        if self.storage.check_key(key):
+            node = self.storage.get_key(key)
+            self.storage.move_to_front(node)
+            return node.get_value()
+        else:
+            return None
     """
     Adds the given key-value pair to the cache. The newly-
     added pair should be considered the most-recently used
